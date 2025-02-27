@@ -1,0 +1,84 @@
+server:
+  port: 8088
+
+---
+
+spring:
+  profiles: default
+  cloud:
+    gateway:
+#<<< API Gateway / Routes
+      routes:
+        - id: reservation-booking
+          uri: http://localhost:8082
+          predicates:
+            - Path=, 
+        - id: transfer-reservation
+          uri: http://localhost:8083
+          predicates:
+            - Path=/transfers/**, 
+        - id: weather-info
+          uri: http://localhost:8084
+          predicates:
+            - Path=/weathers/**, 
+        - id: tide-info
+          uri: http://localhost:8085
+          predicates:
+            - Path=, 
+        - id: frontend
+          uri: http://localhost:8080
+          predicates:
+            - Path=/**
+#>>> API Gateway / Routes
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    gateway:
+      routes:
+        - id: reservation-booking
+          uri: http://reservationBooking:8080
+          predicates:
+            - Path=, 
+        - id: transfer-reservation
+          uri: http://transferReservation:8080
+          predicates:
+            - Path=/transfers/**, 
+        - id: weather-info
+          uri: http://weatherInfo:8080
+          predicates:
+            - Path=/weathers/**, 
+        - id: tide-info
+          uri: http://tideInfo:8080
+          predicates:
+            - Path=, 
+        - id: frontend
+          uri: http://frontend:8080
+          predicates:
+            - Path=/**
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+server:
+  port: 8080

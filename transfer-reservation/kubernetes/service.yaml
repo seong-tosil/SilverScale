@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: transfer-reservation
+  labels:
+    app: transfer-reservation
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: transfer-reservation

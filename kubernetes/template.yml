@@ -1,0 +1,228 @@
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reservation-booking
+  labels:
+    app: reservation-booking
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reservation-booking
+  template:
+    metadata:
+      labels:
+        app: reservation-booking
+    spec:
+      containers:
+        - name: reservation-booking
+          image: username/reservation-booking:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: transfer-reservation
+  labels:
+    app: transfer-reservation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: transfer-reservation
+  template:
+    metadata:
+      labels:
+        app: transfer-reservation
+    spec:
+      containers:
+        - name: transfer-reservation
+          image: username/transfer-reservation:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weather-info
+  labels:
+    app: weather-info
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: weather-info
+  template:
+    metadata:
+      labels:
+        app: weather-info
+    spec:
+      containers:
+        - name: weather-info
+          image: username/weather-info:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tide-info
+  labels:
+    app: tide-info
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tide-info
+  template:
+    metadata:
+      labels:
+        app: tide-info
+    spec:
+      containers:
+        - name: tide-info
+          image: username/tide-info:latest
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 10
+          livenessProbe:
+            httpGet:
+              path: '/actuator/health'
+              port: 8080
+            initialDelaySeconds: 120
+            timeoutSeconds: 2
+            periodSeconds: 5
+            failureThreshold: 5
+
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: reservation-booking
+  labels:
+    app: reservation-booking
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: reservation-booking
+
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: transfer-reservation
+  labels:
+    app: transfer-reservation
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: transfer-reservation
+
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: weather-info
+  labels:
+    app: weather-info
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: weather-info
+
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: tide-info
+  labels:
+    app: tide-info
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: tide-info
+
